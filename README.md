@@ -18,3 +18,4 @@
 **Инструменты для сборки:** CMake, Make(для алиасов)\
 **Unit-тесты:** Google Test\
 **CI/CD:** GitHub Actions
+**Пакет для локального запуска CI/CD:** act(из homebrew)

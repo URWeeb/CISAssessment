@@ -12,7 +12,7 @@ namespace publisher::trust {
             return weight;
         }
 
-        return weight * std::exp2(-elapsed_seconds / half_life_seconds)
+        return weight * std::exp2(-elapsed_seconds / half_life_seconds);
     }
 
 }  // namespace publisher::trust

@@ -1,0 +1,47 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: make build
+      - uses: actions/upload-artifact@v4
+
+        with:
+          name: build-output
+          path: build
+          retention-days: 1
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+
+        with:
+          name: build-output
+          path: build
+
+      - run: chmod +x build/publisher_server build/publisher_client build/publisher_tests
+      - run: make test
+
+  stress-test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      
+        with:
+          name: build-output
+          path: build
+
+      - run: chmod +x build/publisher_server build/publisher_client build/publisher_tests
+      - run: make stress-test
