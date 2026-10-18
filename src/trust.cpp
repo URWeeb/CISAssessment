@@ -15,4 +15,4 @@ namespace publisher::trust {
         return weight * std::exp2(-elapsed_seconds / half_life_seconds)
     }
 
-}
+}  // namespace publisher::trust

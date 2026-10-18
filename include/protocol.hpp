@@ -9,5 +9,5 @@ namespace publisher::protocol {
     std::vector<std::string> SplitTab(std::string_view line);
 
     std::string JoinTab(const std::vector<std::string>& fields);
-    
-}
+
+}  // namespace publisher::protocol

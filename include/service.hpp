@@ -1,20 +1,18 @@
 #pragma once
 
-#include "domain.hpp"
-#include "mailbox.hpp"
-#include "store.hpp"
-
 #include <chrono>
 #include <functional>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#include "domain.hpp"
+#include "mailbox.hpp"
+#include "store.hpp"
+
 namespace publisher::service {
 
-    enum class ErrorCode {
-        NONE, UNKNOWN_CLIENT, HANDSHAKE_REQUIRED, FORBIDDEN
-    };
+    enum class ErrorCode { NONE, UNKNOWN_CLIENT, HANDSHAKE_REQUIRED, FORBIDDEN };
 
     struct Config {
         double threshold = 0.75;
@@ -27,13 +25,15 @@ namespace publisher::service {
         ErrorCode code;
 
     public:
-        explicit ServiceError(ErrorCode c, const std::string& msg) : std::runtime_error(msg), code(c) {}
+        explicit ServiceError(ErrorCode c, const std::string& msg)
+            : std::runtime_error(msg), code(c) {}
     };
 
     class Service {
     public:
-        explicit Service(store::Store& st, mailbox::Registry& mb, Config cfg,
-                        std::function<TimePoint()> clock = []() { return Clock::now(); });
+        explicit Service(
+            store::Store& st, mailbox::Registry& mb, Config cfg,
+            std::function<TimePoint()> clock = []() { return Clock::now(); });
 
         void RegisterClient(const Client& c);
 
@@ -58,4 +58,4 @@ namespace publisher::service {
         ClientStats ComputeStats(const std::string& client_id) const;
     };
 
-}
+}  // namespace publisher::service

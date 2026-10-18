@@ -9,17 +9,11 @@ namespace publisher {
     using Clock = std::chrono::system_clock;
     using TimePoint = Clock::time_point;
 
-    enum class ClientLevel {
-        STAFF, FREELANCER
-    };
+    enum class ClientLevel { STAFF, FREELANCER };
 
-    enum class ReceiptStatus {
-        ACCEPTED, DUPLICATE, REJECTED
-    };
+    enum class ReceiptStatus { ACCEPTED, DUPLICATE, REJECTED };
 
-    enum class ServerEventType {
-        CONGRATULATION;
-    };
+    enum class ServerEventType { CONGRATULATION };
 
     struct Client {
         std::string id;
@@ -30,12 +24,12 @@ namespace publisher {
     };
 
     struct StoryId {
+    public:
         std::string category;
         std::string topic;
 
-        std::string Composite() const {
-            return category + "\x1f" + topic;
-        }
+    public:
+        std::string Composite() const { return category + "\x1f" + topic; }
 
         bool operator==(const StoryId& other) const {
             return category == other.category && topic == other.topic;
@@ -49,12 +43,14 @@ namespace publisher {
     };
 
     struct Story {
+    public:
         StoryId id;
         std::vector<Contribution> contributions;
         std::vector<Contribution> publish_order;
         bool published = false;
         TimePoint published_at{};
 
+    public:
         bool HasContribution(const std::string& client_id) const {
             for (const auto& contribution : contributions) {
                 if (contribution.client_id == client_id) {
@@ -63,11 +59,11 @@ namespace publisher {
             }
 
             return false;
-        }  
+        }
     };
 
     struct Receipt {
-        ReceiptStatus status = ReceiptStatus::REJECTED; 
+        ReceiptStatus status = ReceiptStatus::REJECTED;
         std::string reason;
         bool credited = false;
         bool story_published_initiator = false;
@@ -82,7 +78,7 @@ namespace publisher {
 
     struct ServerEvent {
         std::uint64_t seq = 0;
-        ServerEventType type = ServerEventType::Congratulation;
+        ServerEventType type = ServerEventType::CONGRATULATION;
         TimePoint created_at{};
         std::string payload;
     };
@@ -96,4 +92,4 @@ namespace publisher {
         int sensations = 0;
         double average_rank = 0.0;
     };
-}
+}  // namespace publisher

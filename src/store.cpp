@@ -1,7 +1,8 @@
 #include "../include/store.hpp"
-#include "../include/trust.hpp"
 
 #include <algorithm>
+
+#include "../include/trust.hpp"
 
 namespace publisher::store {
 
@@ -11,7 +12,7 @@ namespace publisher::store {
             return client_id + '\0' + idempotency_key;
         }
 
-    }
+    }  // namespace
 
     void Store::RegisterClient(const Client& c) {
         std::lock_guard<std::mutex> lock(mu_);
@@ -21,7 +22,7 @@ namespace publisher::store {
     std::optional<Client> Store::GetClient(const std::string& id) const {
         std::lock_guard<std::mutex> lock(mu_);
         auto it = clients_.find(id);
-        
+
         if (it == clients_.end()) {
             return std::nullopt;
         }
@@ -33,14 +34,13 @@ namespace publisher::store {
         std::lock_guard<std::mutex> lock(mu_);
         std::vector<Client> out;
         out.reserve(clients_.size());
-        
+
         for (const auto& [id, c] : clients_) {
             out.push_back(c);
         }
-        
-        std::sort(out.begin(), out.end(), [](const Client& a, const Client& b) { 
-            return a.id < b.id;
-        });
+
+        std::sort(out.begin(), out.end(),
+                  [](const Client& a, const Client& b) { return a.id < b.id; });
 
         return out;
     }
@@ -57,7 +57,7 @@ namespace publisher::store {
     }
 
     std::optional<Receipt> Store::FindIdempotent(const std::string& client_id,
-                                                const std::string& idempotency_key) const {
+                                                 const std::string& idempotency_key) const {
         std::lock_guard<std::mutex> lock(mu_);
         auto it = idempotency_.find(IdemKey(client_id, idempotency_key));
         if (it == idempotency_.end()) return std::nullopt;
@@ -65,7 +65,7 @@ namespace publisher::store {
     }
 
     void Store::SaveIdempotent(const std::string& client_id, const std::string& idempotency_key,
-                                const Receipt& r) {
+                               const Receipt& r) {
         std::lock_guard<std::mutex> lock(mu_);
         idempotency_[IdemKey(client_id, idempotency_key)] = r;
     }
@@ -118,11 +118,11 @@ namespace publisher::store {
 
             return std::nullopt;
         }
-    }
+    }  // namespace
 
     SubmitResult Store::SubmitContribution(const StoryId& id, const std::string& client_id,
-                                            TimePoint now, std::chrono::duration<double> half_life,
-                                            double threshold) {
+                                           TimePoint now, std::chrono::duration<double> half_life,
+                                           double threshold) {
         std::lock_guard<std::mutex> lock(mu_);
         Story& st = StoryRefLocked(id);
 
@@ -188,4 +188,4 @@ namespace publisher::store {
         return out;
     }
 
-}
+}  // namespace publisher::store

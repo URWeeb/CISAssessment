@@ -22,16 +22,16 @@ namespace publisher::protocol {
 
     std::string JoinTab(const std::vector<std::string>& fields) {
         std::string out;
-        
+
         for (size_t i = 0; i < fields.size(); ++i) {
             if (i > 0) {
                 out += '\t';
             }
-            
+
             out += fields[i];
         }
 
         return out;
     }
 
-}
+}  // namespace publisher::protocol
