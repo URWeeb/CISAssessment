@@ -1,0 +1,5 @@
+# id,name,level,trust,is_editor
+krislok,Сахарисса Крипслок,staff,1.00,0
+tonny,Избирательно Честный Тонни,freelancer,0.25,0
+pyu,Иногда Слепой Пью,freelancer,0.35,0
+editor,Редактор,staff,0,1
