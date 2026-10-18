@@ -1,0 +1,13 @@
+make build
+./build/publisher_server --port=7879 --roster=configs/clients.csv &
+sleep 1
+./build/publisher_client 127.0.0.1 7879 hello krislok
+./build/publisher_client 127.0.0.1 7879 hello pyu
+./build/publisher_client 127.0.0.1 7879 note krislok k1 двор король уехал
+./build/publisher_client 127.0.0.1 7879 note krislok k1 двор король уехал
+./build/publisher_client 127.0.0.1 7879 note pyu k2 рынок цены выросли
+./build/publisher_client 127.0.0.1 7879 stats krislok
+./build/publisher_client 127.0.0.1 7879 poll krislok 0
+./build/publisher_client 127.0.0.1 7879 stats-all editor
+./build/publisher_client 127.0.0.1 7879 stats-all pyu
+kill %1
